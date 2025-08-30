@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-card">
+  <h2 data-i18n="verify_otp_title">Verify Your OTP</h2>
+  <p data-i18n="verify_otp_subtitle">We've sent a 6-digit OTP to your {{ session.login_type }}</p>
+
+  <div class="otp-container">
+    <div class="otp-info">
+      <div class="otp-icon">🔐</div>
+      <h3 data-i18n="otp_sent_to">OTP Sent to</h3>
+      <p class="identifier">{{ session.pending_login }}</p>
+      <p class="otp-timer" data-i18n="otp_expires">OTP expires in <span id="countdown">10:00</span></p>
+    </div>
+
+    <form method="POST" class="otp-form">
+      <div class="form-group">
+        <label for="otp" data-i18n="enter_otp_label">Enter 6-digit OTP</label>
+        <div class="otp-input-container">
+          <input type="text" id="otp" name="otp" maxlength="6" pattern="[0-9]{6}" required 
+                 data-i18n-ph="otp_placeholder" placeholder="000000" class="otp-input">
+        </div>
+        <small data-i18n="otp_format">Enter the 6-digit code sent to your {{ session.login_type }}</small>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" data-i18n="verify_otp_btn">Verify & Login</button>
+      </div>
+    </form>
+
+    <div class="otp-actions">
+      <button type="button" class="resend-btn" id="resendBtn" data-i18n="resend_otp">Resend OTP</button>
+      <button type="button" class="change-identifier-btn" onclick="window.location.href='{{ url_for('login') }}'" data-i18n="change_identifier">Change {{ session.login_type }}</button>
+    </div>
+
+    <div class="otp-help">
+      <h4 data-i18n="need_help">Need Help?</h4>
+      <ul>
+        <li data-i18n="check_spam">Check your spam/junk folder for emails</li>
+        <li data-i18n="wait_few_minutes">Wait a few minutes for SMS delivery</li>
+        <li data-i18n="contact_support">Contact support if issues persist</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const otpInput = document.getElementById('otp');
+  const countdownElement = document.getElementById('countdown');
+  const resendBtn = document.getElementById('resendBtn');
+  
+  let timeLeft = 600; // 10 minutes in seconds
+  let countdownInterval;
+
+  // Start countdown
+  function startCountdown() {
+    countdownInterval = setInterval(function() {
+      timeLeft--;
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      
+      countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+        countdownElement.textContent = 'Expired';
+        countdownElement.style.color = '#ef4444';
+        resendBtn.disabled = false;
+        resendBtn.classList.remove('disabled');
+      }
+    }, 1000);
+  }
+
+  // Format OTP input
+  otpInput.addEventListener('input', function(e) {
+    // Remove non-numeric characters
+    this.value = this.value.replace(/[^0-9]/g, '');
+    
+    // Limit to 6 digits
+    if (this.value.length > 6) {
+      this.value = this.value.slice(0, 6);
+    }
+  });
+
+  // Auto-submit when 6 digits are entered
+  otpInput.addEventListener('keyup', function(e) {
+    if (this.value.length === 6) {
+      // Auto-submit after a short delay
+      setTimeout(() => {
+        this.form.submit();
+      }, 500);
+    }
+  });
+
+  // Resend OTP functionality
+  resendBtn.addEventListener('click', function() {
+    if (this.disabled) return;
+    
+    // Disable button and show loading
+    this.disabled = true;
+    this.classList.add('disabled');
+    this.textContent = 'Sending...';
+    
+    // Reset countdown
+    timeLeft = 600;
+    countdownElement.textContent = '10:00';
+    countdownElement.style.color = 'inherit';
+    
+    // Re-enable button after 60 seconds
+    setTimeout(() => {
+      this.disabled = false;
+      this.classList.remove('disabled');
+      this.textContent = 'Resend OTP';
+    }, 60000);
+    
+    // Start countdown again
+    startCountdown();
+  });
+
+  // Form validation
+  const form = document.querySelector('.otp-form');
+  form.addEventListener('submit', function(e) {
+    const otp = otpInput.value.trim();
+    
+    if (!otp) {
+      e.preventDefault();
+      alert('Please enter the OTP');
+      return;
+    }
+    
+    if (otp.length !== 6) {
+      e.preventDefault();
+      alert('Please enter a 6-digit OTP');
+      return;
+    }
+    
+    if (!/^\d{6}$/.test(otp)) {
+      e.preventDefault();
+      alert('OTP must contain only numbers');
+      return;
+    }
+  });
+
+  // Start initial countdown
+  startCountdown();
+  
+  // Disable resend button initially
+  resendBtn.disabled = true;
+  resendBtn.classList.add('disabled');
+});
+</script>
+{% endblock %}
+
+
+
+
+
+
+

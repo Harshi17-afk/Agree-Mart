@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-card">
+  <div class="profile-header">
+    <h2 data-i18n="edit_profile_title">Edit Your Profile</h2>
+    <p data-i18n="profile_subtitle">Update your personal information and farm details</p>
+  </div>
+
+  <form method="POST" action="{{ url_for('update_profile') }}" class="profile-form">
+    <div class="form-section">
+      <h3 data-i18n="personal_info">Personal Information</h3>
+      
+      <div class="form-group">
+        <label for="name" data-i18n="full_name_label">Full Name</label>
+        <input type="text" id="name" name="name" value="{{ user.name }}" required>
+      </div>
+      
+      {% if user.email %}
+      <div class="form-group">
+        <label for="email" data-i18n="email_label">Email Address</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}" readonly>
+        <small data-i18n="email_readonly">Email cannot be changed</small>
+      </div>
+      {% endif %}
+      
+      {% if user.phone %}
+      <div class="form-group">
+        <label for="phone" data-i18n="phone_label">Phone Number</label>
+        <input type="tel" id="phone" name="phone" value="{{ user.phone }}" required>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="form-section">
+      <h3 data-i18n="farm_info">Farm Information</h3>
+      
+      <div class="form-group">
+        <label for="location" data-i18n="location_label">Location</label>
+        <input type="text" id="location" name="location" value="{{ user.location if user.location else '' }}" 
+               data-i18n-ph="location_placeholder" placeholder="Enter your farm location">
+      </div>
+      
+      <div class="form-group">
+        <label for="farm_type" data-i18n="farm_type_label">Farm Type</label>
+        <select id="farm_type" name="farm_type">
+          <option value="" data-i18n="select_farm_type">Select farm type</option>
+          <option value="Crop Farming" {% if user.farm_type == 'Crop Farming' %}selected{% endif %} data-i18n="crop_farming">Crop Farming</option>
+          <option value="Dairy Farming" {% if user.farm_type == 'Dairy Farming' %}selected{% endif %} data-i18n="dairy_farming">Dairy Farming</option>
+          <option value="Poultry Farming" {% if user.farm_type == 'Poultry Farming' %}selected{% endif %} data-i18n="poultry_farming">Poultry Farming</option>
+          <option value="Mixed Farming" {% if user.farm_type == 'Mixed Farming' %}selected{% endif %} data-i18n="mixed_farming">Mixed Farming</option>
+          <option value="Organic Farming" {% if user.farm_type == 'Organic Farming' %}selected{% endif %} data-i18n="organic_farming">Organic Farming</option>
+          <option value="Horticulture" {% if user.farm_type == 'Horticulture' %}selected{% endif %} data-i18n="horticulture">Horticulture</option>
+          <option value="Other" {% if user.farm_type == 'Other' %}selected{% endif %} data-i18n="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 data-i18n="account_info">Account Information</h3>
+      
+      <div class="info-display">
+        <div class="info-row">
+          <label data-i18n="member_since">Member Since:</label>
+          <span>{{ user.created_at.split('T')[0] if user.created_at else 'Recently' }}</span>
+        </div>
+        
+        <div class="info-row">
+          <label data-i18n="account_status">Account Status:</label>
+          <span class="status-badge {% if user.is_verified %}verified{% else %}pending{% endif %}">
+            {% if user.is_verified %}Verified ✅{% else %}Pending ⏳{% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="save-btn" data-i18n="save_changes">Save Changes</button>
+      <a href="{{ url_for('dashboard') }}" class="cancel-btn" data-i18n="cancel">Cancel</a>
+    </div>
+  </form>
+
+  <div class="profile-actions">
+    <a href="{{ url_for('dashboard') }}" class="back-btn" data-i18n="back_to_dashboard">← Back to Dashboard</a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('.profile-form');
+  const nameInput = document.getElementById('name');
+  const phoneInput = document.getElementById('phone');
+  const locationInput = document.getElementById('location');
+  
+  // Form validation
+  form.addEventListener('submit', function(e) {
+    const name = nameInput.value.trim();
+    const phone = phoneInput ? phoneInput.value.trim() : '';
+    const location = locationInput.value.trim();
+    
+    if (!name) {
+      e.preventDefault();
+      alert('Please enter your full name');
+      nameInput.focus();
+      return;
+    }
+    
+    if (phone && !isValidPhone(phone)) {
+      e.preventDefault();
+      alert('Please enter a valid phone number');
+      phoneInput.focus();
+      return;
+    }
+    
+    if (name.length < 2) {
+      e.preventDefault();
+      alert('Name must be at least 2 characters long');
+      nameInput.focus();
+      return;
+    }
+  });
+  
+  function isValidPhone(phone) {
+    const phoneRegex = /^[0-9]{10,15}$/;
+    return phoneRegex.test(phone);
+  }
+  
+  // Auto-save draft (optional feature)
+  const inputs = form.querySelectorAll('input, select');
+  inputs.forEach(input => {
+    input.addEventListener('input', function() {
+      // Save to localStorage as draft
+      const formData = new FormData(form);
+      const draft = {};
+      for (let [key, value] of formData.entries()) {
+        draft[key] = value;
+      }
+      localStorage.setItem('profile_draft', JSON.stringify(draft));
+    });
+  });
+  
+  // Load draft on page load
+  const savedDraft = localStorage.getItem('profile_draft');
+  if (savedDraft) {
+    try {
+      const draft = JSON.parse(savedDraft);
+      Object.keys(draft).forEach(key => {
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input && !input.readOnly) {
+          input.value = draft[key];
+        }
+      });
+    } catch (e) {
+      console.log('Could not load draft');
+    }
+  }
+  
+  // Clear draft after successful save
+  form.addEventListener('submit', function() {
+    localStorage.removeItem('profile_draft');
+  });
+});
+</script>
+{% endblock %}
+
+
+
+
+
+
+

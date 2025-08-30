@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrimart - Your Agricultural Marketplace</title>
+    
+    <!-- Google Fonts for multilingual support -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Language Selection Modal -->
+    <div id="lang-modal" class="modal">
+        <div class="modal-content">
+            <h2 data-i18n="choose_language">Choose Your Language</h2>
+            <p data-i18n="language_subtitle">Select your preferred language for the website</p>
+            <div class="lang-options">
+                <button class="lang-option" data-lang="en">English</button>
+                <button class="lang-option" data-lang="kn">ಕನ್ನಡ</button>
+                <button class="lang-option" data-lang="hi">हिन्दी</button>
+                <button class="lang-option" data-lang="ta">தமிழ்</button>
+                <button class="lang-option" data-lang="ml">മലയാളം</button>
+                <button class="lang-option" data-lang="te">తెలుగు</button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <h1 data-i18n="brand">Agrimart</h1>
+        <nav>
+            {% if session.user_id %}
+                <!-- Logged in user navigation -->
+                <a href="{{ url_for('dashboard') }}"><span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="{{ url_for('profile') }}"><span data-i18n="nav_profile">Profile</span></a>
+                <a href="{{ url_for('add_user') }}"><span data-i18n="nav_add">Add Farmer</span></a>
+                <a href="{{ url_for('list_users') }}"><span data-i18n="nav_users">View Farmers</span></a>
+                <a href="{{ url_for('about') }}"><span data-i18n="nav_about">About Us</span></a>
+                <a href="{{ url_for('logout') }}"><span data-i18n="nav_logout">Logout</span></a>
+            {% else %}
+                <!-- Guest user navigation -->
+                <a href="{{ url_for('index') }}"><span data-i18n="nav_home">Home</span></a>
+                <a href="{{ url_for('about') }}"><span data-i18n="nav_about">About Us</span></a>
+                <a href="{{ url_for('login') }}"><span data-i18n="nav_login">Login</span></a>
+            {% endif %}
+        </nav>
+        
+        <div class="lang-switcher">
+            <button class="lang-btn" id="current-lang" data-i18n="current_lang">English</button>
+            <div class="lang-dropdown">
+                <button class="lang-option-dropdown" data-lang="en">English</button>
+                <button class="lang-option-dropdown" data-lang="kn">ಕನ್ನಡ</button>
+                <button class="lang-option-dropdown" data-lang="hi">हिन्दी</button>
+                <button class="lang-option-dropdown" data-lang="ta">தமிழ்</button>
+                <button class="lang-option-dropdown" data-lang="ml">മലയാളം</button>
+                <button class="lang-option-dropdown" data-lang="te">తెలుగు</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="contact-links">
+                <a href="mailto:mhharshith9@gmail.com" class="contact-link" data-i18n="contact_email">
+                    📧 mhharshith9@gmail.com
+                </a>
+                <a href="tel:+918073613227" class="contact-link" data-i18n="contact_phone">
+                    📱 +91-8073613227
+                </a>
+            </div>
+            <div class="footer-brand"></div>
+            <p class="copyright" data-i18n="footer_copyright">© 2024 Agrimart. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language system
+        const LS_LANG = 'agrimart_lang';
+        const LS_FIRST_VISIT = 'agrimart_first_visit';
+        
+        const translations = {
+            en: {
+                // Navigation
+                nav_home: "Home",
+                nav_dashboard: "Dashboard",
+                nav_profile: "Profile",
+                nav_users: "View Farmers",
+                nav_add: "Add Farmer",
+                nav_about: "About Us",
+                nav_login: "Login",
+                nav_logout: "Logout",
+                current_lang: "English",
+                
+                // Login System
+                login_title: "Welcome to Agrimart",
+                login_subtitle: "Login with your Gmail or phone number to access your account",
+                email_login: "Email Login",
+                phone_login: "Phone Login",
+                email_phone_label: "Email or Phone Number",
+                email_phone_placeholder: "Enter your email or phone number",
+                send_otp_btn: "Send OTP",
+                otp_info: "How it works: 1. Enter your email or phone number 2. We'll send you a 6-digit OTP 3. Enter the OTP to login or create account",
+                secure_login: "Secure OTP-based login",
+                quick_setup: "Quick account setup",
+                farmer_friendly: "Farmer-friendly platform",
+                
+                // OTP Verification
+                verify_otp_title: "Verify Your OTP",
+                verify_otp_subtitle: "We've sent a 6-digit OTP to your",
+                otp_sent_to: "OTP Sent to",
+                otp_expires: "OTP expires in",
+                enter_otp_label: "Enter 6-digit OTP",
+                otp_placeholder: "000000",
+                otp_format: "Enter the 6-digit code sent to your",
+                verify_otp_btn: "Verify & Login",
+                resend_otp: "Resend OTP",
+                change_identifier: "Change",
+                need_help: "Need Help?",
+                check_spam: "Check your spam/junk folder for emails",
+                wait_few_minutes: "Wait a few minutes for SMS delivery",
+                contact_support: "Contact support if issues persist",
+                
+                // Dashboard
+                welcome_back: "Welcome back,",
+                dashboard_subtitle: "Manage your Agrimart account and explore our services",
+                account_status: "Account Status",
+                member_since: "Member Since",
+                farm_type: "Farm Type",
+                quick_actions: "Quick Actions",
+                edit_profile: "Edit Profile",
+                update_info: "Update your personal information and farm details",
+                add_farmer: "Add Farmer",
+                register_farmer: "Register a new farmer to sell their products",
+                view_farmers: "View Farmers",
+                browse_farmers: "Browse all registered farmers and their products",
+                about_agrimart: "About Agrimart",
+                learn_more: "Learn more about our platform and services",
+                account_info: "Account Information",
+                full_name: "Full Name",
+                email: "Email",
+                phone: "Phone",
+                location: "Location",
+                logout: "Logout",
+                
+                // Profile
+                edit_profile_title: "Edit Your Profile",
+                profile_subtitle: "Update your personal information and farm details",
+                personal_info: "Personal Information",
+                full_name_label: "Full Name",
+                email_label: "Email Address",
+                email_readonly: "Email cannot be changed",
+                phone_label: "Phone Number",
+                farm_info: "Farm Information",
+                location_label: "Location",
+                location_placeholder: "Enter your farm location",
+                farm_type_label: "Farm Type",
+                select_farm_type: "Select farm type",
+                crop_farming: "Crop Farming",
+                dairy_farming: "Dairy Farming",
+                poultry_farming: "Poultry Farming",
+                mixed_farming: "Mixed Farming",
+                organic_farming: "Organic Farming",
+                horticulture: "Horticulture",
+                other: "Other",
+                account_info: "Account Information",
+                save_changes: "Save Changes",
+                cancel: "Cancel",
+                back_to_dashboard: "← Back to Dashboard",
+                
+                // Common
+                brand: "Agrimart",
+                choose_language: "Choose Your Language",
+                language_subtitle: "Select your preferred language for the website",
+                contact_email: "Email: mhharshith9@gmail.com",
+                contact_phone: "Phone: +91-8073613227",
+                footer_copyright: "© 2024 Agrimart. All rights reserved."
+            },
+            kn: {
+                nav_home: "ಮುಖಪುಟ",
+                nav_dashboard: "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+                nav_profile: "ಪ್ರೊಫೈಲ್",
+                nav_users: "ರೈತರನ್ನು ವೀಕ್ಷಿಸಿ",
+                nav_add: "ರೈತರನ್ನು ಸೇರಿಸಿ",
+                nav_about: "ನಮ್ಮ ಬಗ್ಗೆ",
+                nav_login: "ಲಾಗಿನ್",
+                nav_logout: "ಲಾಗ್‌ಔಟ್",
+                current_lang: "ಕನ್ನಡ",
+                login_title: "ಅಗ್ರಿಮಾರ್ಟ್‌ಗೆ ಸುಸ್ವಾಗತ",
+                login_subtitle: "ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಪ್ರವೇಶಿಸಲು Gmail ಅಥವಾ ಫೋನ್ ಸಂಖ್ಯೆಯೊಂದಿಗೆ ಲಾಗಿನ್ ಆಗಿ",
+                email_login: "ಇಮೇಲ್ ಲಾಗಿನ್",
+                phone_login: "ಫೋನ್ ಲಾಗಿನ್",
+                email_phone_label: "ಇಮೇಲ್ ಅಥವಾ ಫೋನ್ ಸಂಖ್ಯೆ",
+                email_phone_placeholder: "ನಿಮ್ಮ ಇಮೇಲ್ ಅಥವಾ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+                send_otp_btn: "OTP ಕಳುಹಿಸಿ",
+                brand: "ಅಗ್ರಿಮಾರ್ಟ್",
+                choose_language: "ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+                language_subtitle: "ವೆಬ್‌ಸೈಟ್‌ಗಾಗಿ ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+                contact_email: "ಇಮೇಲ್: mhharshith9@gmail.com",
+                contact_phone: "ಫೋನ್: +91-8073613227",
+                footer_copyright: "© 2024 ಅಗ್ರಿಮಾರ್ಟ್. ಎಲ್ಲ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದುಕೊಳ್ಳಲಾಗಿದೆ."
+            },
+            hi: {
+                nav_home: "होम",
+                nav_dashboard: "डैशबोर्ड",
+                nav_profile: "प्रोफ़ाइल",
+                nav_users: "किसानों को देखें",
+                nav_add: "किसान जोड़ें",
+                nav_about: "हमारे बारे में",
+                nav_login: "लॉगिन",
+                nav_logout: "लॉगआउट",
+                current_lang: "हिन्दी",
+                login_title: "एग्रीमार्ट में आपका स्वागत है",
+                login_subtitle: "अपने खाते तक पहुंचने के लिए Gmail या फोन नंबर से लॉगिन करें",
+                email_login: "ईमेल लॉगिन",
+                phone_login: "फोन लॉगिन",
+                email_phone_label: "ईमेल या फोन नंबर",
+                email_phone_placeholder: "अपना ईमेल या फोन नंबर दर्ज करें",
+                send_otp_btn: "OTP भेजें",
+                brand: "एग्रीमार्ट",
+                choose_language: "अपनी भाषा चुनें",
+                language_subtitle: "वेबसाइट के लिए अपनी पसंदीदा भाषा चुनें",
+                contact_email: "ईमेल: mhharshith9@gmail.com",
+                contact_phone: "फोन: +91-8073613227",
+                footer_copyright: "© 2024 एग्रीमार्ट। सर्वाधिकार सुरक्षित।"
+            },
+            ta: {
+                nav_home: "முகப்பு",
+                nav_dashboard: "டாஷ்போர்டு",
+                nav_profile: "சுயவிவரம்",
+                nav_users: "விவசாயிகளைக் காண்க",
+                nav_add: "விவசாயியைச் சேர்க்க",
+                nav_about: "எங்களைப் பற்றி",
+                nav_login: "உள்நுழைவு",
+                nav_logout: "வெளியேறு",
+                current_lang: "தமிழ்",
+                login_title: "அக்ரிமார்ட்டுக்கு வரவேற்கிறோம்",
+                login_subtitle: "உங்கள் கணக்கை அணுக Gmail அல்லது தொலைபேசி எண்ணுடன் உள்நுழையவும்",
+                email_login: "மின்னஞ்சல் உள்நுழைவு",
+                phone_login: "தொலைபேசி உள்நுழைவு",
+                email_phone_label: "மின்னஞ்சல் அல்லது தொலைபேசி எண்",
+                email_phone_placeholder: "உங்கள் மின்னஞ்சல் அல்லது தொலைபேசி எண்ணை உள்ளிடவும்",
+                send_otp_btn: "OTP அனுப்பு",
+                brand: "அக்ரிமார்ட்",
+                choose_language: "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
+                language_subtitle: "வலைத்தளத்திற்கான உங்கள் விருப்ப மொழியைத் தேர்ந்தெடுக்கவும்",
+                contact_email: "மின்னஞ்சல்: mhharshith9@gmail.com",
+                contact_phone: "தொலைபேசி: +91-8073613227",
+                footer_copyright: "© 2024 அக்ரிமார்ட். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+            },
+            ml: {
+                nav_home: "ഹോം",
+                nav_dashboard: "ഡാഷ്‌ബോർഡ്",
+                nav_profile: "പ്രൊഫൈൽ",
+                nav_users: "കർഷകരെ കാണുക",
+                nav_add: "കർഷകനെ ചേർക്കുക",
+                nav_about: "ഞങ്ങളെക്കുറിച്ച്",
+                nav_login: "ലോഗിൻ",
+                nav_logout: "ലോഗൗട്ട്",
+                current_lang: "മലയാളം",
+                login_title: "അഗ്രിമാർട്ടിലേക്ക് സ്വാഗതം",
+                login_subtitle: "നിങ്ങളുടെ അക്കൗണ്ട് ആക്സസ് ചെയ്യാൻ Gmail അല്ലെങ്കിൽ ഫോൺ നമ്പർ ഉപയോഗിച്ച് ലോഗിൻ ചെയ്യുക",
+                email_login: "ഇമെയിൽ ലോഗിൻ",
+                phone_login: "ഫോൺ ലോഗിൻ",
+                email_phone_label: "ഇമെയിൽ അല്ലെങ്കിൽ ഫോൺ നമ്പർ",
+                email_phone_placeholder: "നിങ്ങളുടെ ഇമെയിൽ അല്ലെങ്കിൽ ഫോൺ നമ്പർ നൽകുക",
+                send_otp_btn: "OTP അയയ്ക്കുക",
+                brand: "അഗ്രിമാർട്ട്",
+                choose_language: "നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക",
+                language_subtitle: "വെബ്‌സൈറ്റിനായി നിങ്ങളുടെ പ്രിയപ്പെട്ട ഭാഷ തിരഞ്ഞെടുക്കുക",
+                contact_email: "ഇമെയിൽ: mhharshith9@gmail.com",
+                contact_phone: "ഫോൺ: +91-8073613227",
+                footer_copyright: "© 2024 അഗ്രിമാർട്ട്. എല്ലാ അവകാശങ്ങളും സംരക്ഷിക്കപ്പെട്ടിരിക്കുന്നു."
+            },
+            te: {
+                nav_home: "హోమ్",
+                nav_dashboard: "డాష్‌బోర్డ్",
+                nav_profile: "ప్రొఫైల్",
+                nav_users: "రైతులను చూడండి",
+                nav_add: "రైతును జోడించండి",
+                nav_about: "మా గురించి",
+                nav_login: "లాగిన్",
+                nav_logout: "లాగ్‌అవుట్",
+                current_lang: "తెలుగు",
+                login_title: "అగ്రిమార్కെట్‌కి స్వాగతం",
+                login_subtitle: "మీ ఖాతాను యాక్సెస్ చേయడానికి Gmail లేదా ఫోన్ నంబర్‌తో లాగిన్ చേయండి",
+                email_login: "ఇమെయిల్ లాగిన్",
+                phone_login: "ఫోన్ లాగిన్",
+                email_phone_label: "ఇమെయిల్ లేదా ఫోన్ నంబర్",
+                email_phone_placeholder: "మీ ఇమെయిల్ లేదా ఫోన్ నంబర్‌ను నమోదు చేయండి",
+                send_otp_btn: "OTP పంపండి",
+                brand: "అగ്రిమార్కെట్",
+                choose_language: "మీ భాషను ఎంచുక്కండి",
+                language_subtitle: "వెబ്‌సైట్ కోసం మీ ఇష్టమైన భాషను ఎంచുక്కండి",
+                contact_email: "ఇమെయిల్: mhharshith9@gmail.com",
+                contact_phone: "ఫోన్: +91-8073613227",
+                footer_copyright: "© 2024 అగ്రిమార్కെట్. అన్ని హక്కുలు రక്షించబడ്డాయి."
+            }
+        };
+
+        let currentLang = localStorage.getItem(LS_LANG) || 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem(LS_LANG, lang);
+            localStorage.setItem(LS_FIRST_VISIT, 'false');
+            updateLanguageButton();
+            translatePage();
+        }
+
+        function updateLanguageButton() {
+            const btn = document.getElementById('current-lang');
+            if (btn) {
+                btn.textContent = translations[currentLang]?.current_lang || 'English';
+            }
+        }
+
+        function translatePage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.placeholder = translations[currentLang][key];
+                }
+            });
+        }
+
+        function maybeOpenModal() {
+            const firstVisit = localStorage.getItem(LS_FIRST_VISIT);
+            if (firstVisit !== 'false') {
+                document.getElementById('lang-modal').classList.add('open');
+            }
+        }
+
+        function wireModal() {
+            document.querySelectorAll('.lang-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setLang(btn.dataset.lang);
+                    document.getElementById('lang-modal').classList.remove('open');
+                });
+            });
+
+            document.querySelectorAll('.lang-option-dropdown').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setLang(btn.dataset.lang);
+                    document.querySelector('.lang-dropdown').classList.remove('show');
+                });
+            });
+
+            const langBtn = document.getElementById('current-lang');
+            if (langBtn) {
+                langBtn.addEventListener('click', () => {
+                    document.querySelector('.lang-dropdown').classList.toggle('show');
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.lang-switcher')) {
+                    document.querySelector('.lang-dropdown').classList.remove('show');
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLanguageButton();
+            translatePage();
+            maybeOpenModal();
+            wireModal();
+        });
+    </script>
+</body>
+</html>

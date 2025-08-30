@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-card">
+  <h2 data-i18n="login_title">Welcome to Agrimart</h2>
+  <p data-i18n="login_subtitle">Login with your Gmail or phone number to access your account</p>
+
+  <div class="login-container">
+    <div class="login-tabs">
+      <button class="login-tab active" data-tab="email">
+        <i class="tab-icon">📧</i>
+        <span data-i18n="email_login">Email Login</span>
+      </button>
+      <button class="login-tab" data-tab="phone">
+        <i class="tab-icon">📱</i>
+        <span data-i18n="phone_login">Phone Login</span>
+      </button>
+    </div>
+
+    <form method="POST" class="login-form">
+      <input type="hidden" name="login_type" id="login_type" value="email">
+      
+      <div class="form-group">
+        <label for="identifier" data-i18n="email_phone_label">Email or Phone Number</label>
+        <input 
+          type="text" 
+          id="identifier" 
+          name="identifier" 
+          data-i18n-ph="email_phone_placeholder" 
+          placeholder="Enter your email or phone number" 
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <button type="submit" data-i18n="send_otp_btn">Send OTP</button>
+      </div>
+    </form>
+
+    <div class="login-info">
+      <p data-i18n="otp_info">
+        <strong>How it works:</strong><br>
+        1. Enter your email or phone number<br>
+        2. We'll send you a 6-digit OTP<br>
+        3. Enter the OTP to login or create account
+      </p>
+    </div>
+
+    <div class="login-features">
+      <div class="feature-item">
+        <span class="feature-icon">🔒</span>
+        <span data-i18n="secure_login">Secure OTP-based login</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <span data-i18n="quick_setup">Quick account setup</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🌾</span>
+        <span data-i18n="farmer_friendly">Farmer-friendly platform</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const loginTabs = document.querySelectorAll('.login-tab');
+  const loginTypeInput = document.getElementById('login_type');
+  const identifierInput = document.getElementById('identifier');
+
+  // Tab switching functionality
+  loginTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      // Remove active class from all tabs
+      loginTabs.forEach(t => t.classList.remove('active'));
+      
+      // Add active class to clicked tab
+      this.classList.add('active');
+      
+      // Update hidden input and placeholder
+      const tabType = this.dataset.tab;
+      loginTypeInput.value = tabType;
+      
+      if (tabType === 'email') {
+        identifierInput.placeholder = 'Enter your Gmail address';
+        identifierInput.type = 'email';
+      } else {
+        identifierInput.placeholder = 'Enter your phone number';
+        identifierInput.type = 'tel';
+      }
+      
+      // Clear input
+      identifierInput.value = '';
+    });
+  });
+
+  // Form validation
+  const form = document.querySelector('.login-form');
+  form.addEventListener('submit', function(e) {
+    const identifier = identifierInput.value.trim();
+    const loginType = loginTypeInput.value;
+    
+    if (!identifier) {
+      e.preventDefault();
+      alert('Please enter your email or phone number');
+      return;
+    }
+    
+    if (loginType === 'email' && !isValidEmail(identifier)) {
+      e.preventDefault();
+      alert('Please enter a valid email address');
+      return;
+    }
+    
+    if (loginType === 'phone' && !isValidPhone(identifier)) {
+      e.preventDefault();
+      alert('Please enter a valid phone number');
+      return;
+    }
+  });
+
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function isValidPhone(phone) {
+    const phoneRegex = /^[0-9]{10,15}$/;
+    return phoneRegex.test(phone);
+  }
+});
+</script>
+{% endblock %}
+
+
+
+
+
+
+

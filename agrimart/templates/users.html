@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-card">
+    <h2 data-i18n="users_title">Registered Farmers</h2>
+    {% if users %}
+      <div class="farmers-grid">
+        {% for user in users %}
+          <div class="farmer-card">
+            <h3>{{ user.name }}</h3>
+            <p><strong data-i18n="mobile_label">Mobile:</strong> {{ user.mobile }}</p>
+            <p><strong data-i18n="crop_type_label">Type:</strong> {{ user.type|title }}</p>
+            <p><strong data-i18n="crop_desc_label">Description:</strong> {{ user.description }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p data-i18n="no_farmers">No farmers registered yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

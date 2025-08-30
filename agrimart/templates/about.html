@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-card">
+    <h2 data-i18n="about_title">About Agrimart</h2>
+    <p>Agrimart connects farmers, sellers, and consumers with transparent pricing, direct access, and seamless tools that empower the agricultural ecosystem.</p>
+  </div>
+
+  <div class="page-card" style="margin-top: 16px;">
+    <h2 data-i18n="about_languages">Languages</h2>
+    <div class="tabs" role="tablist" aria-label="Language tabs">
+      <button class="tab active" role="tab" aria-selected="true" data-target="#lang-en" data-lang="en">English</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="#lang-kn" data-lang="kn">ಕನ್ನಡ</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="#lang-hi" data-lang="hi">हिन्दी</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="#lang-ta" data-lang="ta">தமிழ்</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="#lang-ml" data-lang="ml">മലയാളം</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="#lang-te" data-lang="te">తెలుగు</button>
+    </div>
+
+    <div class="lang-grid">
+      <section class="lang-card active" id="lang-en" role="tabpanel" aria-labelledby="tab-en" data-lang="en">
+        <h3>English</h3>
+        <p>Agri-Market is a digital platform built to connect farmers, sellers, and consumers in one place. Our goal is to make agricultural trade simple, transparent, and fair. By giving farmers direct access to buyers, we help them showcase their products without middlemen, ensuring better prices and wider reach.</p>
+        <p>We also provide tools like product listings, smart filters, and logistics support to make transactions seamless. With Agri-Market, consumers can access fresh and authentic agricultural products while supporting the farming community.</p>
+        <p>At its heart, Agri-Market is more than just a marketplace — it’s a bridge between rural producers and urban demand, empowering farmers and promoting sustainable agriculture.</p>
+      </section>
+
+      <section class="lang-card" id="lang-kn" role="tabpanel" aria-labelledby="tab-kn" data-lang="kn">
+        <h3>ಕನ್ನಡ (Kannada)</h3>
+        <p>ಅಗ್ರೀ-ಮಾರ್ಕೆಟ್ ಒಂದು ಡಿಜಿಟಲ್ ವೇದಿಕೆಯಾಗಿದೆ, ಇದು ರೈತರನ್ನು, ಮಾರಾಟಗಾರರನ್ನು ಮತ್ತು ಗ್ರಾಹಕರನ್ನು ಒಂದೇ ಸ್ಥಳದಲ್ಲಿ ಸಂಪರ್ಕಿಸುತ್ತದೆ. ನಮ್ಮ ಉದ್ದೇಶ ಕೃಷಿ ವ್ಯಾಪಾರವನ್ನು ಸರಳ, ಪಾರದರ್ಶಕ ಮತ್ತು ನ್ಯಾಯಸಮ್ಮತವಾಗಿಸಲು. ರೈತರಿಗೆ ನೇರವಾಗಿ ಖರೀದಿದಾರರ ಪ್ರವೇಶ ನೀಡುವ ಮೂಲಕ, ಅವರು ತಮ್ಮ ಉತ್ಪನ್ನಗಳನ್ನು ಮಧ್ಯವರ್ತಿಗಳಿಲ್ಲದೆ ಪ್ರದರ್ಶಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತೇವೆ, ಉತ್ತಮ ಬೆಲೆ ಮತ್ತು ವ್ಯಾಪಕ ತಲುಪುವಿಕೆ ಖಚಿತಪಡಿಸುತ್ತೇವೆ.</p>
+        <p>ನಾವು ಉತ್ಪನ್ನ ಪಟ್ಟಿ, ಸ್ಮಾರ್ಟ್ ಫಿಲ್ಟರ್‌ಗಳು ಮತ್ತು ಲಾಜಿಸ್ಟಿಕ್ಸ್ ಬೆಂಬಲವನ್ನು ಒದಗಿಸುತ್ತೇವೆ, ಇದರಿಂದ ವ್ಯವಹಾರಗಳು ಸುಗಮವಾಗುತ್ತವೆ. ಅಗ್ರೀ-ಮಾರ್ಕೆಟ್ ಮೂಲಕ, ಗ್ರಾಹಕರು ತಾಜಾ ಮತ್ತು ನೈಸರ್ಗಿಕ ಕೃಷಿ ಉತ್ಪನ್ನಗಳನ್ನು ಪಡೆಯುತ್ತಾರೆ ಮತ್ತು ರೈತ ಸಮುದಾಯವನ್ನು ಬೆಂಬಲಿಸುತ್ತಾರೆ.</p>
+        <p>ಮೂಲದಲ್ಲಿ, ಅಗ್ರೀ-ಮಾರ್ಕೆಟ್ ಕೇವಲ ಮಾರುಕಟ್ಟೆಯಲ್ಲ — ಇದು ಗ್ರಾಮೀಣ ಉತ್ಪಾದಕರ ಮತ್ತು ನಗರ ಬೇಡಿಕೆಯ ನಡುವೆ ಸೇತುವೆಯಾಗಿದೆ, ರೈತರನ್ನು ಶಕ್ತಿಪಡಿಸುವುದು ಮತ್ತು ಶಾಶ್ವತ ಕೃಷಿಯನ್ನು ಉತ್ತೇಜಿಸುವುದು.</p>
+      </section>
+
+      <section class="lang-card" id="lang-hi" role="tabpanel" aria-labelledby="tab-hi" data-lang="hi">
+        <h3>हिन्दी (Hindi)</h3>
+        <p>एग्री-मार्केट एक डिजिटल प्लेटफ़ॉर्म है जो किसानों, विक्रेताओं और उपभोक्ताओं को एक ही स्थान पर जोड़ता है। हमारा लक्ष्य कृषि व्यापार को सरल, पारदर्शी और निष्पक्ष बनाना है। किसानों को सीधे खरीदारों से जोड़कर, हम उन्हें बिना बिचौलियों के अपने उत्पाद दिखाने में मदद करते हैं, जिससे बेहतर दाम और व्यापक पहुँच सुनिश्चित होती है।</p>
+        <p>हम उत्पाद सूची, स्मार्ट फ़िल्टर और लॉजिस्टिक्स समर्थन जैसे उपकरण प्रदान करते हैं ताकि लेन-देन सहज हो सके। एग्री-मार्केट के साथ, उपभोक्ता ताज़ा और असली कृषि उत्पाद प्राप्त कर सकते हैं और किसान समुदाय का समर्थन कर सकते हैं।</p>
+        <p>अपने मूल में, एग्री-मार्केट सिर्फ़ एक बाज़ार नहीं है — यह ग्रामीण उत्पादकों और शहरी मांग के बीच एक पुल है, जो किसानों को सशक्त बनाता है और टिकाऊ खेती को बढ़ावा देता है।</p>
+      </section>
+
+      <section class="lang-card" id="lang-ta" role="tabpanel" aria-labelledby="tab-ta" data-lang="ta">
+        <h3>தமிழ் (Tamil)</h3>
+        <p>அக்ரி-மார்க்கெட் என்பது விவசாயிகள், விற்பனையாளர்கள் மற்றும் நுகர்வோர்களை ஒரே இடத்தில் இணைக்கும் ஒரு டிஜிட்டல் தளம் ஆகும். எங்கள் நோக்கம் வேளாண் வர்த்தகத்தை எளிமையான, வெளிப்படையான மற்றும் நியாயமானதாக மாற்றுவதாகும். விவசாயிகளை நேரடியாக வாங்குபவர்களுடன் இணைப்பதன் மூலம், அவர்கள் தங்கள் பொருட்களை நடுவிலாளர்கள் இன்றி காட்சிப்படுத்த உதவுகிறோம், இதன் மூலம் சிறந்த விலை மற்றும் பரந்த அளவில் சென்றடைவதை உறுதி செய்கிறோம்.</p>
+        <p>நாங்கள் தயாரிப்பு பட்டியல், ஸ்மார்ட் வடிகட்டிகள் மற்றும் லாஜிஸ்டிக்ஸ் ஆதரவு போன்ற கருவிகளை வழங்குகிறோம், இதனால் பரிவர்த்தனைகள் தடையின்றி நடைபெறும். அக்ரி-மார்க்கெட் மூலம், நுகர்வோர்கள் புதிய மற்றும் உண்மையான வேளாண் பொருட்களைப் பெறலாம், அதே சமயம் விவசாய சமூகத்தையும் ஆதரிக்கிறார்கள்.</p>
+        <p>அடிப்படையில், அக்ரி-மார்க்கெட் என்பது ஒரு சந்தை மட்டுமல்ல — இது கிராம உற்பத்தியாளர்கள் மற்றும் நகர தேவைகளுக்கு இடையே ஒரு பாலமாகும், விவசாயிகளை அதிகாரப்படுத்துகிறது மற்றும் நிலைத்திருக்கக்கூடிய வேளாண்மையை ஊக்குவிக்கிறது.</p>
+      </section>
+
+      <section class="lang-card" id="lang-ml" role="tabpanel" aria-labelledby="tab-ml" data-lang="ml">
+        <h3>മലയാളം (Malayalam)</h3>
+        <p>അഗ്രി-മാർക്കറ്റ് കർഷകരെയും, വിൽപ്പനക്കാരെയും, ഉപഭോക്താക്കളെയും ഒരേ വേദിയിൽ ബന്ധിപ്പിക്കുന്ന ഒരു ഡിജിറ്റൽ പ്ലാറ്റ്ഫോമാണ്. കാർഷിക വ്യാപാരം ലളിതവും, സുതാര്യവും, നീതിയുള്ളതുമായ രീതിയിൽ നടത്തുക എന്നതാണ് ഞങ്ങളുടെ ലക്ഷ്യം. കർഷകരെ നേരിട്ട് വാങ്ങുന്നവരുമായി ബന്ധിപ്പിച്ചുകൊണ്ട്, ഇടനിലക്കാരില്ലാതെ അവരുടെ ഉൽപ്പന്നങ്ങൾ പ്രദർശിപ്പിക്കാൻ സഹായിക്കുന്നു, ഇതിലൂടെ നല്ല വിലയും കൂടുതൽ എത്തിപ്പെടലും ഉറപ്പാക്കുന്നു.</p>
+        <p>ഞങ്ങൾ ഉൽപ്പന്ന ലിസ്റ്റിംഗ്, സ്മാർട്ട് ഫിൽറ്ററുകൾ, ലോജിസ്റ്റിക്‌സ് പിന്തുണ എന്നിവയും നൽകുന്നു, ഇതിലൂടെ ഇടപാടുകൾ എളുപ്പമാക്കുന്നു. അഗ്രി-മാർക്കറ്റിലൂടെ ഉപഭോക്താക്കൾക്ക് പുതുമയും വിശ്വസ്തവുമായ കാർഷിക ഉൽപ്പന്നങ്ങൾ ലഭ്യമാകും, അതോടൊപ്പം കർഷക സമൂഹത്തെ പിന്തുണയ്ക്കാം.</p>
+        <p>അടിസ്ഥാനത്തിൽ, അഗ്രി-മാർക്കറ്റ് വെറും മാർക്കറ്റല്ല — ഗ്രാമീണ ഉൽപ്പാദകരെയും നഗര ആവശ്യകതയെയും തമ്മിൽ ബന്ധിപ്പിക്കുന്ന ഒരു പാലമാണ് ഇത്, കർഷകരെ ശക്തിപ്പെടുത്തുകയും നിലനിൽക്കുന്ന കാർഷികത്തെ പ്രോത്സാഹിപ്പിക്കുകയും ചെയ്യുന്നു.</p>
+      </section>
+
+      <section class="lang-card" id="lang-te" role="tabpanel" aria-labelledby="tab-te" data-lang="te">
+        <h3>తెలుగు (Telugu)</h3>
+        <p>అగ్రి-మార్కెట్ అనేది రైతులు, అమ్మకందారులు మరియు వినియోగదారులను ఒకే వేదికపై కలుపుతున్న డిజిటల్ ప్లాట్‌ఫారమ్. మా లక్ష్యం వ్యవసాయ వ్యాపారాన్ని సులభం, పారదర్శకం మరియు న్యాయమైనదిగా చేయడం. రైతులను నేరుగా కొనుగోలుదారులతో కలిపి, వారు మధ్యవర్తులు లేకుండా తమ ఉత్పత్తులను ప్రదర్శించడానికి సహాయం చేస్తుంది, తద్వారా మెరుగైన ధరలు మరియు విస్తృత స్థాయి చేరుకోవడం సాధ్యమవుతుంది.</p>
+        <p>మేము ఉత్పత్తి జాబితాలు, స్మార్ట్ ఫిల్టర్లు మరియు లాజిస్టిక్స్ మద్దతు వంటి సాధనాలను అందిస్తున్నాము, తద్వారా లావాదేవీలు సులభతరం అవుతాయి. అగ్రి-మార్కెట్ ద్వారా వినియోగదారులు తాజా మరియు నిజమైన వ్యవసాయ ఉత్పత్తులను పొందగలరు, రైతు సమాజాన్ని కూడా మద్దతు ఇస్తారు.</p>
+        <p>మూలంలో, అగ్రి-మార్కెట్ కేవలం ఒక మార్కెట్ మాత్రమే కాదు — ఇది గ్రామీణ ఉత్పత్తిదారులు మరియు పట్టణ డిమాండ్ మధ్య ఒక వంతెన, రైతులను శక్తివంతం చేస్తుంది మరియు స్థిరమైన వ్యవసాయాన్ని ప్రోత్సహిస్తుంది.</p>
+      </section>
+    </div>
+  </div>
+  <script>
+    (function() {
+      const tabs = document.querySelectorAll('.tabs .tab');
+      const panels = document.querySelectorAll('.lang-card');
+      function activate(targetSelector) {
+        panels.forEach(p => p.classList.remove('active'));
+        tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+        const panel = document.querySelector(targetSelector);
+        const tab = Array.from(tabs).find(t => t.dataset.target === targetSelector);
+        if (panel) panel.classList.add('active');
+        if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected','true'); }
+      }
+      tabs.forEach(tab => tab.addEventListener('click', () => activate(tab.dataset.target)));
+      // Ensure default state on load
+      activate('#lang-en');
+    })();
+  </script>
+{% endblock %}
+
+

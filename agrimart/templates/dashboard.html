@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-card">
+  <div class="dashboard-header">
+    <h2 data-i18n="welcome_back">Welcome back, {{ user.name }}!</h2>
+    <p data-i18n="dashboard_subtitle">Manage your Agrimart account and explore our services</p>
+  </div>
+
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <div class="stat-icon">👤</div>
+      <div class="stat-content">
+        <h3 data-i18n="account_status">Account Status</h3>
+        <p class="stat-value">{% if user.is_verified %}Verified ✅{% else %}Pending ⏳{% endif %}</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-content">
+        <h3 data-i18n="member_since">Member Since</h3>
+        <p class="stat-value">{{ user.created_at.split('T')[0] if user.created_at else 'Recently' }}</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon">🌾</div>
+      <div class="stat-content">
+        <h3 data-i18n="farm_type">Farm Type</h3>
+        <p class="stat-value">{{ user.farm_type if user.farm_type else 'Not specified' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-actions">
+    <h3 data-i18n="quick_actions">Quick Actions</h3>
+    
+    <div class="action-grid">
+      <a href="{{ url_for('profile') }}" class="action-card">
+        <div class="action-icon">⚙️</div>
+        <h4 data-i18n="edit_profile">Edit Profile</h4>
+        <p data-i18n="update_info">Update your personal information and farm details</p>
+      </a>
+      
+      <a href="{{ url_for('add_user') }}" class="action-card">
+        <div class="action-icon">➕</div>
+        <h4 data-i18n="add_farmer">Add Farmer</h4>
+        <p data-i18n="register_farmer">Register a new farmer to sell their products</p>
+      </a>
+      
+      <a href="{{ url_for('list_users') }}" class="action-card">
+        <div class="action-icon">👥</div>
+        <h4 data-i18n="view_farmers">View Farmers</h4>
+        <p data-i18n="browse_farmers">Browse all registered farmers and their products</p>
+      </a>
+      
+      <a href="{{ url_for('about') }}" class="action-card">
+        <div class="action-icon">ℹ️</div>
+        <h4 data-i18n="about_agrimart">About Agrimart</h4>
+        <p data-i18n="learn_more">Learn more about our platform and services</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="dashboard-info">
+    <h3 data-i18n="account_info">Account Information</h3>
+    
+    <div class="info-grid">
+      <div class="info-item">
+        <label data-i18n="full_name">Full Name:</label>
+        <span>{{ user.name }}</span>
+      </div>
+      
+      {% if user.email %}
+      <div class="info-item">
+        <label data-i18n="email">Email:</label>
+        <span>{{ user.email }}</span>
+      </div>
+      {% endif %}
+      
+      {% if user.phone %}
+      <div class="info-item">
+        <label data-i18n="phone">Phone:</label>
+        <span>{{ user.phone }}</span>
+      </div>
+      {% endif %}
+      
+      <div class="info-item">
+        <label data-i18n="location">Location:</label>
+        <span>{{ user.location if user.location else 'Not specified' }}</span>
+      </div>
+      
+      <div class="info-item">
+        <label data-i18n="farm_type">Farm Type:</label>
+        <span>{{ user.farm_type if user.farm_type else 'Not specified' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-footer">
+    <a href="{{ url_for('logout') }}" class="logout-btn" data-i18n="logout">Logout</a>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
